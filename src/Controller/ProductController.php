@@ -32,18 +32,15 @@ class ProductController extends AbstractController
     }
 
     /**
-    * Finds and displays a product entity.
-    *
-    * @Route("/product/{id}",methods={"GET","POST"} ,name="product_show")
-    */
+     * Finds and displays the product with the id given on the url
+     *
+     * @Route("/product/{id}", name="product_show")
+     */
     public function showAction(Product $product)
     {
-        $deleteForm = $this->createDeleteForm($product);
-
         return $this->render('product/show.html.twig', array(
         'product' => $product,
-        'delete_form' => $deleteForm->createView(),
-        ));
+        )); 
     }
 
     /**
