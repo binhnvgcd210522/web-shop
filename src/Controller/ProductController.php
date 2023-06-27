@@ -12,36 +12,35 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ProductController extends AbstractController
 {
-    /**
-   * Lists all product entities.
-   *
-   * @Route("/product", methods={"GET", "POST"},name="product_index")
-   */
-    public function indexAction()
-    {
-    $em = $this->getDoctrine()->getManager();
+ /**
+ * @Route("/product", name="product_index")
+ */
+public function listAction()
+{
+    $product = $this->getDoctrine()
+        ->getRepository('App\Entity\Product')
+        ->findAll();
+    return $this->render('product/index.html.twig', [
+        'product' => $product
+    ]);
+}
 
-    $products = $em->getRepository(Product::class)->findAll();
-    for ($i=0;$i<sizeof($products);$i++){
-      $formViews[$i]= $this->createDeleteForm($products[$i])->createView();
-    }
-    // $formViews là 1 mảng gồm các formView đơn lẻ
-    return $this->render('product/index.html.twig', array(
-      'products' => $products, 'delete_forms' => $formViews,
-    ));  
-    }
 
-    /**
-     * Finds and displays the product with the id given on the url
-     *
-     * @Route("/product/{id}", name="product_show")
-     */
-    public function showAction(Product $product)
-    {
-        return $this->render('product/show.html.twig', array(
-        'product' => $product,
-        )); 
-    }
+ /**
+ * @Route("/product/{id}", name="product_show")
+ */
+public
+function showAction($id)
+{
+    $product = $this->getDoctrine()
+        ->getRepository('App\Entity\Product')
+        ->find($id);
+
+    return $this->render('product/show.html.twig', [
+        'product' => $product
+    ]);
+}
+
 
     /**
     * Displays a form to edit an existing product entity.
@@ -67,7 +66,7 @@ class ProductController extends AbstractController
         ));
     }
 
-    /**
+ /**
      * @Route("/product/new", name="product_new")
      */
     public function addAction(Request $request): Response
@@ -82,7 +81,7 @@ class ProductController extends AbstractController
             $em->persist($product);
             $em->flush();
 
-            return $this->redirectToRoute('product_index');
+            return $this->redirectToRoute('product_show', array('id' => $product->getId()));
         }
 
         return $this->render('product/new.html.twig', [
@@ -91,37 +90,23 @@ class ProductController extends AbstractController
         ]);
     }
 
-    /**
-    * Delete a product entity.    
-    * @Route("/product/{id}", methods={"DELETE"},name="product_delete")
-    */
-    public function deleteAction(Request $request, Product $product)
-    {
-        $form = $this->createDeleteForm($product);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+    /**
+     * @Route("/product/delete/{id}", name="product_delete")
+     */
+    public function deleteAction($id)
+    {
         $em = $this->getDoctrine()->getManager();
+        $product = $em->getRepository('App\Entity\Product')->find($id);
         $em->remove($product);
         $em->flush();
-        }
-
+        
+        $this->addFlash(
+            'error',
+            'Product deleted'
+        );
+        
         return $this->redirectToRoute('product_index');
-    }
-    
-    /**
-    * Creates a form to delete a product entity.
-    *
-    * @param Product $product The product entity
-    *
-    * @return Form The form
-    */
-    private function createDeleteForm(Product $product): Form
-    {
-        return $this->createFormBuilder()
-        ->setAction($this->generateUrl('product_delete', array('id' => $product->getId())))
-        ->setMethod('DELETE')
-        ->getForm()
-        ;
+
     }
 }

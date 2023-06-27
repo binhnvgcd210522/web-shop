@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+  <style>
+    h2,
+    .list-group-item {
+    background-color: #008cba;
+    color: #fff;
+    }
+    h2 {
+    font-size: 24px; 
+    padding: 10px; 
+    }
+
+    .list-group-item {
+    padding: 5px; 
+    }
+  </style>
+{% endblock %}
+{% block body %}
+    <a href="{{ path('product_index') }}" class="btn btn-default">Back to product List</a>
+    <hr/>
+     <h2 >{{ product.name }}</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Product ID: {{ product.id }}</li>     
+        <li class="list-group-item">Category: {{ product.Category.name }}</li>
+        <li class="list-group-item">Price: {{ product.price }}</li>    
+        <li class="list-group-item">Quantity: {{ product.quantity }}</li>               
+    </ul>    
+{% endblock %}

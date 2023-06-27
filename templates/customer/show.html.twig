@@ -1,5 +1,35 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+<style>
+  h1 {
+    font-size: 28px;
+  }
 
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th {
+    padding: 10px;
+    background-color: #f2f2f2;
+    text-align: left;
+  }
+
+  td {
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+
+  a {
+    display: inline-block;
+    padding: 10px;
+    background-color: #008cba;
+    color: #fff;
+    text-decoration: none;
+  }
+  </style>
+{% endblock%}
 {% block body %}
   <h1>Customer</h1>
 
@@ -15,7 +45,7 @@
     </tr>
     <tr>
       <th>Address</th>
-      <td>{{ customer.Address }}</td>
+      <td>{{ customer.address }}</td>
     </tr>
     <tr>
       <th>Phone number</th>

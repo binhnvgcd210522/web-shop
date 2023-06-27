@@ -11,16 +11,16 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ProductType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('name', TextType::class)
-            ->add('quantity', IntegerType::class,['data'=>1])
-            ->add('price')
-            ->add('category')
-        ;
+            ->add('name', TextType::class)
+            ->add('category', TextType::class)
+            ->add('price', IntegerType::class)
+            ->add('quantity', IntegerType::class);            
     }
-
+    
+    
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -28,3 +28,4 @@ class ProductType extends AbstractType
         ]);
     }
 }
+

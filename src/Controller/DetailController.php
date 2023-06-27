@@ -18,3 +18,4 @@ class DetailController extends AbstractController
         ]);
     }
 }
+

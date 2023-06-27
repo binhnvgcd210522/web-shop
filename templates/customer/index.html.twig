@@ -49,6 +49,7 @@
             <th>Name</th>
             <th>Address</th>
             <th>Phone number</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -58,7 +59,15 @@
                 <td>{{ c.name }}</td>
                 <td>{{ c.address }}</td>
                 <td>{{ c.phone }}</td>
-               
+                <td>
+                    
+                  <li><a href="{{ path('customer_show', { 'id': c.id }) }}" >Show</a></li>
+                  
+                  <li> <a href="{{ path('customer_edit', { 'id': c.id }) }}" >Edit</a></li>                              
+                      
+                  <li> <a href="{{ path('customer_delete', { 'id': c.id}) }}" class='delete'>Delete</a> </li>                                                                                                  
+                 
+              </td>
             </tr>
         {% endfor %}
         </tbody>

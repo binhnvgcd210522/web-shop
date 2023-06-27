@@ -23,37 +23,39 @@ class CategoryController extends AbstractController
         ]);
     } 
 
-    /**   
-   *
-   * @Route("/category/{id}", name="category_show")
-   */
-    public function showAction(Category $category)
+    /**
+     * Finds and displays the category with the id given on the url
+     *
+     * @Route("/category/{id}", name="category_show")
+     */
+    public function showAction($id)
     {
+        $category = $this->getDoctrine()
+        ->getRepository('App\Entity\Category')
+        ->find($id);
         return $this->render('category/show.html.twig', array(
         'category' => $category,
-        ));
+        )); 
     }
+    
 
     /**
-    * @Route("/category/new", name="category_new")
+    * @Route("/category/create", name="category_new", methods={"GET","POST"})
     */
-    public function addAction(Request $request): Response
-    {        
+    public function createAction(Request $request)
+    {
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            
+        if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $em->persist($category);
             $em->flush();
-
-            return $this->redirectToRoute('category_index', ['id' => $category->getId()]);
+            return $this->redirectToRoute('category_show', array('id' => $category->getId()));
         }
-
-        return $this->render('category/new.html.twig', [
+        return $this->render('category/new.html.twig', array(
+            'category' => $category,
             'form' => $form->createView(),
-        ]);
-    }    
+        ));
+    }
 }
