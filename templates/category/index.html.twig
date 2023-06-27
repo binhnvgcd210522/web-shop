@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+            border-top: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        th {
+            background-color: #eee;
+            font-weight: bold;
+        }
+
+        button a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            padding: 10px 15px;
+            background-color: #00a9e0;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color .2s ease-in-out;
+        }
+
+        button a:hover {
+            background-color: #0077b3;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <h1>Category list</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>            
+        </tr>
+        </thead>
+        <tbody>
+        {% for c in category %}
+            <tr>
+                <td>{{ c.id }}</td>
+                <td>{{ c.Name }}</td>                
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <button><a href="{{ path('category_new') }}">Add</a></button>
+
+{% endblock %}

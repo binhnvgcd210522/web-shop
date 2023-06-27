@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    thead tr {
+      background-color: #f2f2f2;
+    }
+
+    td, th {
+      border: 1px solid #ddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    a {
+      color: blue;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    input[type="submit"] {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: darkred;
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+  <h1>Order list</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>       
+        <th>Date</th>
+        <th>Customer name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in 0..(order|length-1) %}
+        <tr>
+          <td>{{ order[i].id }}</td>
+          <td>{{ order[i].date|date('Y-m-d') }}</td>         
+          <td>{{ order[i].Customer.name }}</td>          
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>  
+{% endblock %}

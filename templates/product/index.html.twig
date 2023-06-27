@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    thead tr {
+      background-color: #f2f2f2;
+    }
+
+    td, th {
+      border: 1px solid #ddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    a {
+      color: blue;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    input[type="submit"] {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: darkred;
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+  <h1>Products list</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Category</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in 0..(products|length-1) %}
+        <tr>
+          <td><a href="{{ path('product_show', { 'id': products[i].id }) }}">{{ products[i].id }}</a></td>
+          <td>{{ products[i].name }}</td>
+          <td>{{ products[i].price }}</td>
+          <td>{{ products[i].quantity }}</td>
+          <td>{{ products[i].Category.name }}</td>
+          <td>
+            <ul>
+              <li>
+                <a href="{{ path('product_show', { 'id': products[i].id }) }}">show</a>
+              </li>
+              <li>
+                <a href="{{ path('product_edit', { 'id': products[i].id }) }}">edit</a>            
+              </li>
+              <li onclick="return confirm('Are you sure you want to delete?')" >
+                {{ form_start(delete_forms[i]) }}
+                <input type="submit" value="Delete">
+                {{ form_end(delete_forms[i]) }}
+              </li>                            
+            </ul>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <ul>
+    <li>
+     <button> <a href="{{ path('product_new') }}">Create a new product</a></button>
+    </li>
+  </ul>
+{% endblock %}
